@@ -60,12 +60,15 @@ public class postController {
 		return existingPost;
 	}
 	
-	@DeleteMapping("deletepost//{id}")
-	public Post deletePost(@PathVariable (value = "/{id}") Long id)
+	@DeleteMapping("deletepost/{id}")
+	public Post deletePost(@PathVariable (value = "id") Long id)
 	{
-		Post post = Repo.findById(id).orElseThrow(()->new Exception("Post Not Found"));
-		Repo.delete(post);
-			return post;
+		Optional <Post> post = Repo.findById(id);
+		if(post.isPresent()) {
+		Repo.delete(post.get());
+			return post.get();
+			}
+		return null;
 	}
 	
 	
